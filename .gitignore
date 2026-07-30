@@ -1,0 +1,84 @@
+#comentario
+# * --> comodin
+# / ..> ruta
+
+
+
+
+#--------------------------------------------------
+# ==========================================
+# 1. SECRETOS Y VARIABLES DE ENTORNO
+# ==========================================
+.env
+.env*.local
+*.pem
+*.pkcs12
+*.key
+
+# ==========================================
+# 2. ARCHIVOS DEL SISTEMA OPERATIVO
+# ==========================================
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+Desktop.ini
+
+# ==========================================
+# 3. CONFIGURACIONES DE EDITORES / IDEs
+# ==========================================
+.vscode/
+!.vscode/extensions.json
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+
+# ==========================================
+# 4. PASOS DE COMPILACIÓN, LOGS Y TEMPORALES
+# ==========================================
+*.log
+logs/
+*.tmp
+*.temp
+*.swp
+.cache/
+
+# ==========================================
+# 5. DEPENDENCIAS (Ajustar según tu lenguaje)
+# ==========================================
+node_modules/
+/jspm_packages/
+.npm/
+venv/
+.venv/
+env/
+__pycache__/
+*.py[cod]
+
+# ==========================================
+# 6. ESPECÍFICO PARA REACT, EXPRESS Y TAILWIND
+# ==========================================
+
+# Producción y compilación (React / Tailwind)
+dist/
+build/
+out/
+
+# Caché de herramientas de empaquetado (Vite / Next / CRA)
+.vite/
+.turbo/
+.parcel-cache/
+
+# Dependencias locales y logs de instalación
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+bun.lockb
