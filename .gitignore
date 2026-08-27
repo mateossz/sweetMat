@@ -59,7 +59,7 @@ node_modules/
 .npm/
 venv/
 .venv/
-env/
+.env
 __pycache__/
 *.py[cod]
 

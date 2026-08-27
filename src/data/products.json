@@ -1,0 +1,57 @@
+[
+    {
+        "id": "uuid-1234-abcd-5678",    
+        "name": "Product 1",
+        "description": "Description for Product 1",
+        "code": "",
+        "price": 10.99,
+        "status": "",
+        "stock": "",
+        "category": "",
+        "image": "product1.jpg"
+    },
+    {
+        "id": "uuid-5678-abcd-9012",    
+        "name": "Product 2",
+        "description": "Description for Product 2",
+        "code": "",
+        "price": 15.99,
+        "status": "",
+        "stock": "",
+        "category": "",
+        "image": "product2.jpg"
+    },
+    {
+        "id": "uuid-5143-efgh-7890",    
+        "name": "Product 3",
+        "description": "Description for Product 3",
+        "code": "",
+        "price": 10.99,
+        "status": "",
+        "stock": "",
+        "category": "",
+        "image": "product3.jpg"
+    },
+    {
+        "id": "uuid-9012-ijkl-3456",    
+        "name": "Product 4",
+        "description": "Description for Product 4",
+        "code": "",
+        "price": 10.99,
+        "status": "",
+        "stock": "",
+        "category": "",
+        "image": "product4.jpg"
+    },
+    {
+        "id": "uuid-1357-mnop-2468",    
+        "name": "Product 5",
+        "description": "Description for Product 5",
+        "code": "",
+        "price": 10.99,
+        "status": "",
+        "stock": "",
+        "category": "",
+        "image": "product5.jpg"
+    }
+]
