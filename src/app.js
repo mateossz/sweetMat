@@ -2,8 +2,9 @@ const express = require('express');
 const app = express()
 const PORT = 3000
 
+const routesProducts = require('./routes/product.routes.js')
 
-const ProductsManager = require('./dao/ProductManager.js')
+const ProductsManager = require('./dao/product.manager.js')
 
 const productsDao = new ProductsManager();
 
@@ -42,6 +43,7 @@ const html = `
 </html>
 `;
 
+
 // funcion middleware para monitoreo de rutas   date + url + method + status code + tiempo de respuesta 
 
 function logger(req, res, next) {
@@ -67,6 +69,26 @@ app.use(express.json()); //sin esto la data por body es undefined
 
 app.use(express.urlencoded({ extended: true })); //para recibir data desde formularios html
 
+// monitoreo de rutas con morgan
+const morgan = require('morgan');
+app.use(morgan('dev'));
+
+
+
+// CORS -- DE MANERA NATIVA - CON LISTA DINAMICA DE DOMINIOS
+
+const allowedOrigins = ['http://localhost:3000', 'http://example.com']; // Lista de dominios permitidos
+
+app.use((req, res, next) => {
+    const origin = req.headers.origin;
+    if (allowedOrigins.includes(origin)) {
+        res.setHeader('Access-Control-Allow-Origin', origin);
+    }
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    next();
+});
+
 app.get('/', (req, res) => {
   res.status(200).send(html)
 })
@@ -84,82 +106,84 @@ app.listen(PORT, () => {
 })
 */
 
-//---------ROUTES-----------------------------
+//----------------------ROUTES-----------------------------
 
-// Obtener todos los productos
+app.use('/api/products', routesProducts); // Rutas de productos
 
-app.get("/api/products", async (req, res) => {
-    try {
-        const products = await productsDao.getAllProducts();
-        res.status(200).json(products);
-    } catch (error) {
-        res.status(500).json({ error: 'Error al obtener los productos' });
-    }
-});
+// // Obtener todos los productos
 
-// Obtener un producto por su ID
+// app.get("/api/products", async (req, res) => {
+//     try {
+//         const products = await productsDao.getAllProducts();
+//         res.status(200).json(products);
+//     } catch (error) {
+//         res.status(500).json({ error: 'Error al obtener los productos' });
+//     }
+// });
 
-app.get("/api/products/:id", async (req, res) => {
-    try {
-        const { id } = req.params;
-        const product = await productsDao.getProductById(id);
-        if (!product) {
-            res.status(404).json({ error: 'Producto no encontrado' });
-        }
-        res.status(200).json(product);
-    } catch (error) {
-        res.status(500).json({ error: 'Error al obtener el producto' });
-    }
-});
+// // Obtener un producto por su ID
 
-// Crear un nuevo producto (ID se autogenera)
+// app.get("/api/products/:id", async (req, res) => {
+//     try {
+//         const { id } = req.params;
+//         const product = await productsDao.getProductById(id);
+//         if (!product) {
+//             res.status(404).json({ error: 'Producto no encontrado' });
+//         }
+//         res.status(200).json(product);
+//     } catch (error) {
+//         res.status(500).json({ error: 'Error al obtener el producto' });
+//     }
+// });
 
-app.post("/api/products", async (req, res) => {
-    const productData = req.body;
-    try {
-        const newProduct = await productsDao.createProduct(productData);
-        res.status(201).json(newProduct);
-    } catch (error) {
-        res.status(400).json({ error: 'Error al crear el producto' });
-    } 
-});
-/*
-ejemplo de uso
-newProduct = {
-    "name": "Product 1",
-    "description": "Description for Product 1",
-    "code": "P001",
-    "price": 10.99,
-    "status": true,
-    "stock": 100,
-    "category": "Category 1",
-    "image": "product1.jpg"
-}
-*/
+// // Crear un nuevo producto (ID se autogenera)
 
-// Actualizar un producto exepto su ID
+// app.post("/api/products", async (req, res) => {
+//     const productData = req.body;
+//     try {
+//         const newProduct = await productsDao.createProduct(productData);
+//         res.status(201).json(newProduct);
+//     } catch (error) {
+//         res.status(400).json({ error: 'Error al crear el producto' });
+//     } 
+// });
+// /*
+// ejemplo de uso
+// newProduct = {
+//     "name": "Product 1",
+//     "description": "Description for Product 1",
+//     "code": "P001",
+//     "price": 10.99,
+//     "status": true,
+//     "stock": 100,
+//     "category": "Category 1",
+//     "image": "product1.jpg"
+// }
+// */
 
-app.put("/api/products/:id", async (req, res) => {
-    try {
-        const { id } = req.params;
-        const updatedData = req.body;
-        const updatedProduct = await productsDao.updateProduct(id, updatedData);
-        res.status(200).json(updatedProduct);
-    } catch (error) {
-        res.status(400).json({ error: 'Error al actualizar el producto' });
-    }
-});
+// // Actualizar un producto exepto su ID
 
-// Eliminar un producto por su ID
+// app.put("/api/products/:id", async (req, res) => {
+//     try {
+//         const { id } = req.params;
+//         const updatedData = req.body;
+//         const updatedProduct = await productsDao.updateProduct(id, updatedData);
+//         res.status(200).json(updatedProduct);
+//     } catch (error) {
+//         res.status(400).json({ error: 'Error al actualizar el producto' });
+//     }
+// });
 
-app.delete("/api/products/:id", async (req, res) => {
-    try {
-        const { id } = req.params;
-        await productsDao.deleteProduct(id);
-        res.status(200).json({ message: 'Producto eliminado correctamente' });
-    } catch (error) {
-        res.status(500).json({ error: 'Error al eliminar el producto' });
-    }
-    });
+// // Eliminar un producto por su ID
 
-    module.exports = { app }
+// app.delete("/api/products/:id", async (req, res) => {
+//     try {
+//         const { id } = req.params;
+//         await productsDao.deleteProduct(id);
+//         res.status(200).json({ message: 'Producto eliminado correctamente' });
+//     } catch (error) {
+//         res.status(500).json({ error: 'Error al eliminar el producto' });
+//     }
+//     });
+
+module.exports = { app }

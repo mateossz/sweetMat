@@ -3,14 +3,40 @@ const fs = require('fs').promises;
 const path = require('path');
 const { v4: uuidv4 } = require('uuid');
 
-const dataFilePath = path.join(__dirname, "../", "data");
+const productsFilePath = path.join(__dirname, "../", "data", "products.json");
 
 //console.log(productsFilePath);
 
 class ProductsManager {
-  constructor() {   
-    this.productsFile = path.join(dataFilePath, "products.json");
+  static async allProducts() {   
+    try {
+        console.log("---->");
+      const data = await fs.readFile(path.join(productsFilePath, "products.json"), 'utf-8');
+
+      console.log("---->", data);
+      if (!data) return [];
+      return JSON.parse(data);
+    } catch (error) {
+      console.error('Error al leer el archivo de productos:', error);
+      throw error;
     }
+  }
+
+    static async getProductById(id) {
+        try {
+            const products = await this.allProducts();
+            const product = products.find(p => p.id === id);
+            if (!product) {
+                throw new Error(`Producto con ID ${id} no encontrado`);
+            }
+            return product;
+        } catch (error) {
+            console.error('Error al obtener el producto por ID:', error);
+            throw error;
+        }
+    }
+
+    
     // Método para obtener todos los productos
     async getAllProducts() {
         try {
@@ -90,6 +116,8 @@ class ProductsManager {
         }
     }
 
+    
 }
+
 
 module.exports = ProductsManager;
