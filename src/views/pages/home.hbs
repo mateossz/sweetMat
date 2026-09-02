@@ -1,0 +1,12 @@
+<div>
+    {{ > header}}
+    <h1>Bienvenido a SweetMat</h1>
+
+    {{#if active}}
+        <p>Hola {{nombre}} {{apellido}}, tienes {{edad}} años.</p>
+    {{else}}
+        <p>Hola invitado, por favor inicia sesión.</p>
+    {{/if}}
+
+    {{ > footer}}
+</div>

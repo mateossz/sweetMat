@@ -1,10 +1,8 @@
 const express = require('express');
 const app = express()
-const PORT = 3000
 const path = require('path');
+
 const handlebars = require('express-handlebars');
-
-
 
 
 const routesProducts = require('./routes/product.routes.js')
@@ -48,6 +46,29 @@ const html = `
 </html>
 `;
 
+// arranque handlebars
+
+app.engine(
+    'hbs', 
+    handlebars.engine({
+        extname: '.hbs', 
+        defaultLayout: 'main.hbs', 
+        //layoutsDir: path.join(__dirname, 'views/layouts'), 
+        //partialsDir: path.join(__dirname, 'views/partials'),
+        //pagesDir: path.join(__dirname, 'views/pages')
+        })
+    );
+app.set('view engine', 'hbs');
+app.set('views', path.join(__dirname, 'views'));
+
+const context = {
+    edad: 30,
+    active: true,
+    nombre,
+    apellido,
+};
+return res.render('pages/home', context); 
+
 
 // funcion middleware para monitoreo de rutas   date + url + method + status code + tiempo de respuesta 
 
@@ -65,6 +86,7 @@ function logger(req, res, next) {
 }
 
 app.use(logger);
+
 
 //! BODY IMPORTANTE MIDDLEWARE - req.body --> DATA ENVIADA DESDE EL CLIENTE (POSTMAN, NAVEGADOR, ETC.)
 
