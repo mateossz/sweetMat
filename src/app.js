@@ -1,6 +1,11 @@
 const express = require('express');
 const app = express()
 const PORT = 3000
+const path = require('path');
+const handlebars = require('express-handlebars');
+
+
+
 
 const routesProducts = require('./routes/product.routes.js')
 
@@ -74,10 +79,15 @@ const morgan = require('morgan');
 app.use(morgan('dev'));
 
 
-
 // CORS -- DE MANERA NATIVA - CON LISTA DINAMICA DE DOMINIOS
 
 const allowedOrigins = ['http://localhost:3000', 'http://example.com']; // Lista de dominios permitidos
+
+
+// STATIC
+app.use("/public", express.static(path.join(__dirname, 'public'))); // Carpeta pública para archivos estáticos (CSS, JS, imágenes, etc.)
+
+
 
 app.use((req, res, next) => {
     const origin = req.headers.origin;
@@ -186,4 +196,6 @@ app.use('/api/products', routesProducts); // Rutas de productos
 //     }
 //     });
 
-module.exports = { app }
+
+
+module.exports = { app } 
