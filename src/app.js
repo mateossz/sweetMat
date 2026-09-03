@@ -12,40 +12,6 @@ const ProductsManager = require('./dao/product.manager.js')
 const productsDao = new ProductsManager();
 
 
-// inicio con html + diseño
-const style = `
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #04021d;
-        margin: 0;
-        padding: 0;
-    }
-    h1 {
-        color: #4120ff; 
-    }
-    p {
-        color: #c1f3fa;
-    }
-`;
-const html = `
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SweetMat</title>
-    <style>
-        ${style}
-    </style>
-</head>
-<body>
-    <h1>Bienvenido a SweetMat</h1>
-    <p>Esta es la página de inicio de SweetMat.</p>
-</body>
-</html>
-`;
-
 // arranque handlebars
 
 app.engine(
@@ -53,22 +19,33 @@ app.engine(
     handlebars.engine({
         extname: '.hbs', 
         defaultLayout: 'main.hbs', 
-        //layoutsDir: path.join(__dirname, 'views/layouts'), 
-        //partialsDir: path.join(__dirname, 'views/partials'),
-        //pagesDir: path.join(__dirname, 'views/pages')
+        layoutsDir: path.join(__dirname, 'views/layouts'), 
+        partialsDir: path.join(__dirname, 'views/partials'),
+        pagesDir: path.join(__dirname, 'views/pages')
         })
     );
 app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'views'));
 
-const context = {
-    edad: 30,
-    active: true,
-    nombre,
-    apellido,
-};
-return res.render('pages/home', context); 
+app.get('/', (req, res) => {
+    const context = {
+        active: true,
+        nombre,
+        apellido,
+        edad: 21
+    }
+    return res.render('pages/home', context);
+});
+ 
 
+app.get('/login', (req, res) => {
+    const { id, nombre } = req.query;
+    const context = {
+        id,
+        nombre,
+    };
+    return res.render('pages/login', context);
+});
 
 // funcion middleware para monitoreo de rutas   date + url + method + status code + tiempo de respuesta 
 
@@ -121,9 +98,6 @@ app.use((req, res, next) => {
     next();
 });
 
-app.get('/', (req, res) => {
-  res.status(200).send(html)
-})
 //------------------------------------------------
 
 
